@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Guru - SMP GIKI 2</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="coba.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+</head>
+<body>
+
+    <header class="d-flex justify-content-between align-items-center p-3 custom-header fixed-top">
+        <div class="d-flex align-items-center">
+            <button class="btn text-white me-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNav" aria-controls="offcanvasNav">
+                <i class="bi bi-list fs-4"></i> 
+            </button>
+            <span class="h5 mb-0 text-white">Dashboard Guru</span>
+        </div>
+        
+        <div class="custom-header-right"></div>
+    </header>
+
+    <div class="offcanvas offcanvas-start custom-sidebar" tabindex="-1" id="offcanvasNav" aria-labelledby="offcanvasNavLabel">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="offcanvasNavLabel">Menu Guru</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <ul class="nav flex-column sidebar-nav-list">
+                <li class="nav-item p-2 active-nav">
+                    <a class="nav-link text-dark" href="dashboard-guru.html"><i class="bi bi-house-door me-2"></i> Dashboard</a>
+                </li>
+                <li class="nav-item p-2">
+                    <a class="nav-link text-dark" href="absensi.html"><i class="bi bi-calendar-check me-2"></i> Absensi Siswa</a>
+                </li>
+                <li class="nav-item p-2">
+                    <a class="nav-link text-dark" href="kelas.html"><i class="bi bi-people-fill me-2"></i> Kelas Saya</a>
+                </li>
+                <li class="nav-item p-2">
+                    <a class="nav-link text-dark" href="jadwal.html"><i class="bi bi-calendar3 me-2"></i> Jadwal Mengajar</a>
+                </li>
+                <li class="nav-item p-2">
+                    <a class="nav-link text-dark" href="laporan-guru.html"><i class="bi bi-file-earmark-text me-2"></i> Laporan</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    
+    <main class="container-fluid p-4 main-content" style="padding-top: 75px !important; padding-bottom: 90px !important;">
+        
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="h5 text-dark">Selamat Datang, <span class="fw-bold" id="namaGuru">Guru</span></h2>
+            <div class="d-flex align-items-center user-info-box">
+                <i class="bi bi-person-circle fs-5 me-2 text-secondary"></i>
+                <span class="me-2 text-dark user-name">Guru</span>
+                <i class="bi bi-caret-down-fill text-secondary"></i>
+            </div>
+        </div>
+
+        <!-- Statistik Cepat -->
+        <div class="row mb-4">
+            <div class="col-md-3">
+                <div class="card text-center border-0 shadow-sm">
+                    <div class="card-body">
+                        <i class="bi bi-calendar-check text-primary fs-3"></i>
+                        <h5 class="card-title mt-2" id="totalAbsensiHari">0</h5>
+                        <p class="card-text text-muted">Absensi Hari Ini</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card text-center border-0 shadow-sm">
+                    <div class="card-body">
+                        <i class="bi bi-people-fill text-success fs-3"></i>
+                        <h5 class="card-title mt-2" id="totalSiswaAktif">0</h5>
+                        <p class="card-text text-muted">Siswa Aktif</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card text-center border-0 shadow-sm">
+                    <div class="card-body">
+                        <i class="bi bi-clock text-warning fs-3"></i>
+                        <h5 class="card-title mt-2" id="jadwalHariIni">0</h5>
+                        <p class="card-text text-muted">Jadwal Hari Ini</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card text-center border-0 shadow-sm">
+                    <div class="card-body">
+                        <i class="bi bi-graph-up text-info fs-3"></i>
+                        <h5 class="card-title mt-2" id="rataRataKehadiran">0%</h5>
+                        <p class="card-text text-muted">Rata-rata Kehadiran</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Jadwal Mengajar Hari Ini -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0"><i class="bi bi-calendar3 me-2"></i>Jadwal Mengajar Hari Ini</h5>
+                        <span class="badge bg-primary" id="tanggalHariIni"></span>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover mb-0">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Waktu</th>
+                                        <th>Mata Pelajaran</th>
+                                        <th>Kelas</th>
+                                        <th>Status</th>
+                                        <th>Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tabelJadwal">
+                                    <!-- Data jadwal akan dimuat secara dinamis -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Kelas yang Diampu -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0"><i class="bi bi-people-fill me-2"></i>Kelas yang Diampu</h5>
+                        <a href="kelas.html" class="btn btn-sm btn-outline-primary">Kelola Kelas</a>
+                    </div>
+                    <div class="card-body">
+                        <div class="row" id="kelasDiampu">
+                            <!-- Card kelas akan dimuat secara dinamis -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Absensi Terbaru -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0"><i class="bi bi-clock-history me-2"></i>Absensi Terbaru</h5>
+                        <a href="absensi.html" class="btn btn-sm btn-outline-primary">Lihat Semua</a>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover mb-0">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Tanggal</th>
+                                        <th>Mata Pelajaran</th>
+                                        <th>Kelas</th>
+                                        <th>Hadir</th>
+                                        <th>Tidak Hadir</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tabelAbsensiTerbaru">
+                                    <!-- Data absensi terbaru akan dimuat secara dinamis -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Cek apakah user sudah login dan role guru
+        document.addEventListener('DOMContentLoaded', function() {
+            const userLogin = localStorage.getItem('userLogin');
+            if (!userLogin) {
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            const userData = JSON.parse(userLogin);
+            if (userData.role !== 'Guru') {
+                alert('Akses ditolak. Halaman ini khusus untuk Guru.');
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            // Tampilkan nama user
+            const userNameElement = document.querySelector('.user-name');
+            const namaGuruElement = document.getElementById('namaGuru');
+            if (userNameElement) {
+                userNameElement.textContent = userData.username;
+            }
+            if (namaGuruElement) {
+                namaGuruElement.textContent = userData.username;
+            }
+            
+            // Load data dashboard
+            loadDashboardData();
+        });
+        
+        // Load data dashboard
+        function loadDashboardData() {
+            loadStatistik();
+            loadJadwalHariIni();
+            loadKelasDiampu();
+            loadAbsensiTerbaru();
+            setTanggalHariIni();
+        }
+        
+        // Set tanggal hari ini
+        function setTanggalHariIni() {
+            const today = new Date();
+            const options = { 
+                weekday: 'long', 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+            };
+            document.getElementById('tanggalHariIni').textContent = today.toLocaleDateString('id-ID', options);
+        }
+        
+        // Load statistik
+        function loadStatistik() {
+            // Simulasi data statistik
+            document.getElementById('totalAbsensiHari').textContent = Math.floor(Math.random() * 5) + 1;
+            document.getElementById('totalSiswaAktif').textContent = 45; // Total siswa dari data sample
+            document.getElementById('jadwalHariIni').textContent = 3;
+            document.getElementById('rataRataKehadiran').textContent = Math.floor(Math.random() * 20) + 80 + '%';
+        }
+        
+        // Load jadwal hari ini
+        function loadJadwalHariIni() {
+            const jadwal = [
+                { waktu: '07:00 - 08:30', mapel: 'Matematika', kelas: '9A', status: 'Selesai' },
+                { waktu: '08:30 - 10:00', mapel: 'Matematika', kelas: '9B', status: 'Berlangsung' },
+                { waktu: '10:00 - 11:30', mapel: 'Matematika', kelas: '9C', status: 'Akan Datang' }
+            ];
+            
+            let html = '';
+            jadwal.forEach(j => {
+                const statusBadge = j.status === 'Selesai' ? 'bg-success' : 
+                                   j.status === 'Berlangsung' ? 'bg-warning' : 'bg-info';
+                const aksiBtn = j.status === 'Berlangsung' ? 
+                    '<a href="absensi.html" class="btn btn-sm btn-primary">Absen Sekarang</a>' :
+                    j.status === 'Akan Datang' ? 
+                    '<button class="btn btn-sm btn-outline-secondary" disabled>Belum Waktunya</button>' :
+                    '<button class="btn btn-sm btn-outline-success" disabled>Selesai</button>';
+                
+                html += `
+                    <tr>
+                        <td>${j.waktu}</td>
+                        <td>${j.mapel}</td>
+                        <td>${j.kelas}</td>
+                        <td><span class="badge ${statusBadge}">${j.status}</span></td>
+                        <td>${aksiBtn}</td>
+                    </tr>
+                `;
+            });
+            
+            document.getElementById('tabelJadwal').innerHTML = html;
+        }
+        
+        // Load kelas yang diampu
+        function loadKelasDiampu() {
+            const kelas = [
+                { nama: 'Kelas 9A', mapel: 'Matematika', siswa: 15, kehadiran: 95 },
+                { nama: 'Kelas 9B', mapel: 'Matematika', siswa: 15, kehadiran: 88 },
+                { nama: 'Kelas 9C', mapel: 'Matematika', siswa: 15, kehadiran: 92 }
+            ];
+            
+            let html = '';
+            kelas.forEach(k => {
+                html += `
+                    <div class="col-md-4 mb-3">
+                        <div class="card border-0 shadow-sm h-100">
+                            <div class="card-body text-center">
+                                <i class="bi bi-people-fill text-primary fs-2"></i>
+                                <h6 class="card-title mt-2">${k.nama}</h6>
+                                <p class="text-muted small">${k.mapel}</p>
+                                <div class="d-flex justify-content-between small">
+                                    <span>Siswa: ${k.siswa}</span>
+                                    <span>Kehadiran: ${k.kehadiran}%</span>
+                                </div>
+                                <a href="absensi.html" class="btn btn-sm btn-outline-primary mt-2 w-100">Lihat Detail</a>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            document.getElementById('kelasDiampu').innerHTML = html;
+        }
+        
+        // Load absensi terbaru
+        function loadAbsensiTerbaru() {
+            const absensi = [
+                { tanggal: '07/01/2025', mapel: 'Matematika', kelas: '9A', hadir: 14, tidakHadir: 1, status: 'Selesai' },
+                { tanggal: '06/01/2025', mapel: 'Matematika', kelas: '9B', hadir: 13, tidakHadir: 2, status: 'Selesai' },
+                { tanggal: '06/01/2025', mapel: 'Matematika', kelas: '9C', hadir: 15, tidakHadir: 0, status: 'Selesai' }
+            ];
+            
+            let html = '';
+            absensi.forEach(a => {
+                const statusBadge = a.status === 'Selesai' ? 'bg-success' : 'bg-warning';
+                html += `
+                    <tr>
+                        <td>${a.tanggal}</td>
+                        <td>${a.mapel}</td>
+                        <td>${a.kelas}</td>
+                        <td><span class="badge bg-success">${a.hadir}</span></td>
+                        <td><span class="badge bg-danger">${a.tidakHadir}</span></td>
+                        <td><span class="badge ${statusBadge}">${a.status}</span></td>
+                    </tr>
+                `;
+            });
+            
+            document.getElementById('tabelAbsensiTerbaru').innerHTML = html;
+        }
+        
+        // Tambahkan event listener untuk dropdown user
+        document.addEventListener('DOMContentLoaded', function() {
+            const userInfoBox = document.querySelector('.user-info-box');
+            if (userInfoBox) {
+                userInfoBox.style.cursor = 'pointer';
+                userInfoBox.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    
+                    // Hapus menu sebelumnya jika ada
+                    const existingMenu = document.querySelector('.dropdown-menu');
+                    if (existingMenu) {
+                        existingMenu.remove();
+                        return;
+                    }
+                    
+                    const menu = document.createElement('div');
+                    menu.className = 'dropdown-menu show position-absolute';
+                    menu.style.top = '100%';
+                    menu.style.right = '0';
+                    menu.style.zIndex = '1000';
+                    menu.innerHTML = `
+                        <a class="dropdown-item" href="#" onclick="logout()">
+                            <i class="bi bi-box-arrow-right me-2"></i>Logout
+                        </a>
+                    `;
+                    
+                    userInfoBox.appendChild(menu);
+                    
+                    // Tutup menu saat klik di luar
+                    setTimeout(() => {
+                        document.addEventListener('click', function closeMenu(e) {
+                            if (!userInfoBox.contains(e.target)) {
+                                menu.remove();
+                                document.removeEventListener('click', closeMenu);
+                            }
+                        });
+                    }, 100);
+                });
+            }
+        });
+        
+        // Fungsi logout
+        function logout() {
+            if (confirm('Apakah Anda yakin ingin logout?')) {
+                localStorage.removeItem('userLogin');
+                window.location.href = 'login.html';
+            }
+        }
+    </script>
+</body>
+</html>

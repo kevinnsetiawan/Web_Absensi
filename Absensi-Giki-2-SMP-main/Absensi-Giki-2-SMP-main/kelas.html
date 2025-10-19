@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manajemen Kelas - SMP GIKI 2</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="coba.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+</head>
+<body>
+
+    <header class="d-flex justify-content-between align-items-center p-3 custom-header fixed-top">
+        <div class="d-flex align-items-center">
+            <button class="btn text-white me-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNav" aria-controls="offcanvasNav">
+                <i class="bi bi-list fs-4"></i> 
+            </button>
+            <span class="h5 mb-0 text-white">Manajemen Kelas</span>
+        </div>
+        
+        <div class="custom-header-right"></div>
+    </header>
+
+    <div class="offcanvas offcanvas-start custom-sidebar" tabindex="-1" id="offcanvasNav" aria-labelledby="offcanvasNavLabel">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="offcanvasNavLabel">Menu</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <ul class="nav flex-column sidebar-nav-list">
+                <li class="nav-item p-2">
+                    <a class="nav-link text-dark" href="dashboard.html"><i class="bi bi-house-door me-2"></i> Dashboard</a>
+                </li>
+                <li class="nav-item p-2">
+                    <a class="nav-link text-dark" href="absensi.html"><i class="bi bi-calendar-check me-2"></i> Absensi</a>
+                </li>
+                <li class="nav-item p-2 active-nav">
+                    <a class="nav-link text-dark" href="kelas.html"><i class="bi bi-people-fill me-2"></i> Kelas</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    
+    <main class="container-fluid p-4 main-content" style="padding-top: 75px !important; padding-bottom: 90px !important;">
+        
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="h5 text-dark">Manajemen Kelas: <span class="fw-bold">SMP GIKI 2 Surabaya</span></h2>
+            <div class="d-flex align-items-center user-info-box">
+                <i class="bi bi-person-circle fs-5 me-2 text-secondary"></i>
+                <span class="me-2 text-dark user-name">Berlin</span>
+                <i class="bi bi-caret-down-fill text-secondary"></i>
+            </div>
+        </div>
+
+        <!-- Filter dan Pencarian -->
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-search"></i></span>
+                    <input type="text" class="form-control" placeholder="Cari siswa..." id="searchSiswa">
+                </div>
+            </div>
+            <div class="col-md-3">
+                <select class="form-select" id="filterKelas">
+                    <option value="">Semua Kelas</option>
+                    <option value="9A">Kelas 9A</option>
+                    <option value="9B">Kelas 9B</option>
+                    <option value="9C">Kelas 9C</option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <button class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#modalTambahSiswa">
+                    <i class="bi bi-person-plus me-1"></i>Tambah Siswa
+                </button>
+            </div>
+        </div>
+
+        <!-- Statistik Kelas -->
+        <div class="row mb-4">
+            <div class="col-md-3">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <i class="bi bi-people-fill text-primary fs-3"></i>
+                        <h5 class="card-title mt-2" id="totalSiswa">0</h5>
+                        <p class="card-text text-muted">Total Siswa</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <i class="bi bi-person-check-fill text-success fs-3"></i>
+                        <h5 class="card-title mt-2" id="siswaAktif">0</h5>
+                        <p class="card-text text-muted">Siswa Aktif</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <i class="bi bi-person-x-fill text-danger fs-3"></i>
+                        <h5 class="card-title mt-2" id="siswaTidakAktif">0</h5>
+                        <p class="card-text text-muted">Tidak Aktif</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <i class="bi bi-graph-up text-info fs-3"></i>
+                        <h5 class="card-title mt-2" id="rataRataKehadiran">0%</h5>
+                        <p class="card-text text-muted">Rata-rata Kehadiran</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tabel Siswa -->
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Daftar Siswa</h5>
+                <div class="btn-group btn-group-sm" role="group">
+                    <button type="button" class="btn btn-outline-primary" onclick="exportData('excel')">
+                        <i class="bi bi-file-earmark-excel me-1"></i>Excel
+                    </button>
+                    <button type="button" class="btn btn-outline-primary" onclick="exportData('pdf')">
+                        <i class="bi bi-file-earmark-pdf me-1"></i>PDF
+                    </button>
+                </div>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th width="5%">No</th>
+                                <th width="20%">Nama Siswa</th>
+                                <th width="15%">NIS</th>
+                                <th width="10%">Kelas</th>
+                                <th width="15%">Tanggal Lahir</th>
+                                <th width="15%">No. Telepon</th>
+                                <th width="10%">Status</th>
+                                <th width="10%">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabelSiswa">
+                            <!-- Data siswa akan dimuat secara dinamis -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal Tambah Siswa -->
+    <div class="modal fade" id="modalTambahSiswa" tabindex="-1" aria-labelledby="modalTambahSiswaLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalTambahSiswaLabel">Tambah Siswa Baru</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="formTambahSiswa">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="namaSiswa" class="form-label">Nama Lengkap</label>
+                                    <input type="text" class="form-control" id="namaSiswa" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="nisSiswa" class="form-label">NIS</label>
+                                    <input type="text" class="form-control" id="nisSiswa" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="kelasSiswa" class="form-label">Kelas</label>
+                                    <select class="form-select" id="kelasSiswa" required>
+                                        <option value="">Pilih Kelas</option>
+                                        <option value="9A">Kelas 9A</option>
+                                        <option value="9B">Kelas 9B</option>
+                                        <option value="9C">Kelas 9C</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="tanggalLahir" class="form-label">Tanggal Lahir</label>
+                                    <input type="date" class="form-control" id="tanggalLahir" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="noTelepon" class="form-label">No. Telepon</label>
+                                    <input type="tel" class="form-control" id="noTelepon">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="alamatSiswa" class="form-label">Alamat</label>
+                                    <textarea class="form-control" id="alamatSiswa" rows="2"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="namaOrtu" class="form-label">Nama Orang Tua</label>
+                                    <input type="text" class="form-control" id="namaOrtu">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="teleponOrtu" class="form-label">No. Telepon Orang Tua</label>
+                                    <input type="tel" class="form-control" id="teleponOrtu">
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                    <button type="button" class="btn btn-primary" onclick="simpanSiswa()">Simpan</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Edit Siswa -->
+    <div class="modal fade" id="modalEditSiswa" tabindex="-1" aria-labelledby="modalEditSiswaLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalEditSiswaLabel">Edit Data Siswa</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="formEditSiswa">
+                        <input type="hidden" id="editIdSiswa">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="editNamaSiswa" class="form-label">Nama Lengkap</label>
+                                    <input type="text" class="form-control" id="editNamaSiswa" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="editNisSiswa" class="form-label">NIS</label>
+                                    <input type="text" class="form-control" id="editNisSiswa" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="editKelasSiswa" class="form-label">Kelas</label>
+                                    <select class="form-select" id="editKelasSiswa" required>
+                                        <option value="">Pilih Kelas</option>
+                                        <option value="9A">Kelas 9A</option>
+                                        <option value="9B">Kelas 9B</option>
+                                        <option value="9C">Kelas 9C</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="editTanggalLahir" class="form-label">Tanggal Lahir</label>
+                                    <input type="date" class="form-control" id="editTanggalLahir" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="editNoTelepon" class="form-label">No. Telepon</label>
+                                    <input type="tel" class="form-control" id="editNoTelepon">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="editAlamatSiswa" class="form-label">Alamat</label>
+                                    <textarea class="form-control" id="editAlamatSiswa" rows="2"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="editNamaOrtu" class="form-label">Nama Orang Tua</label>
+                                    <input type="text" class="form-control" id="editNamaOrtu">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="editTeleponOrtu" class="form-label">No. Telepon Orang Tua</label>
+                                    <input type="tel" class="form-control" id="editTeleponOrtu">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="editStatusSiswa" class="form-label">Status</label>
+                                    <select class="form-select" id="editStatusSiswa" required>
+                                        <option value="aktif">Aktif</option>
+                                        <option value="tidak-aktif">Tidak Aktif</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                    <button type="button" class="btn btn-primary" onclick="updateSiswa()">Update</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Cek apakah user sudah login
+        document.addEventListener('DOMContentLoaded', function() {
+            const userLogin = localStorage.getItem('userLogin');
+            if (!userLogin) {
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            // Tampilkan nama user
+            const userData = JSON.parse(userLogin);
+            const userNameElement = document.querySelector('.user-name');
+            if (userNameElement) {
+                userNameElement.textContent = userData.username;
+            }
+        });
+        
+        // Tambahkan event listener untuk dropdown user
+        document.addEventListener('DOMContentLoaded', function() {
+            const userInfoBox = document.querySelector('.user-info-box');
+            if (userInfoBox) {
+                userInfoBox.style.cursor = 'pointer';
+                userInfoBox.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    
+                    // Hapus menu sebelumnya jika ada
+                    const existingMenu = document.querySelector('.dropdown-menu');
+                    if (existingMenu) {
+                        existingMenu.remove();
+                        return;
+                    }
+                    
+                    const menu = document.createElement('div');
+                    menu.className = 'dropdown-menu show position-absolute';
+                    menu.style.top = '100%';
+                    menu.style.right = '0';
+                    menu.style.zIndex = '1000';
+                    menu.innerHTML = `
+                        <a class="dropdown-item" href="#" onclick="logout()">
+                            <i class="bi bi-box-arrow-right me-2"></i>Logout
+                        </a>
+                    `;
+                    
+                    userInfoBox.appendChild(menu);
+                    
+                    // Tutup menu saat klik di luar
+                    setTimeout(() => {
+                        document.addEventListener('click', function closeMenu(e) {
+                            if (!userInfoBox.contains(e.target)) {
+                                menu.remove();
+                                document.removeEventListener('click', closeMenu);
+                            }
+                        });
+                    }, 100);
+                });
+            }
+        });
+        
+        // Fungsi logout
+        function logout() {
+            if (confirm('Apakah Anda yakin ingin logout?')) {
+                localStorage.removeItem('userLogin');
+                window.location.href = 'login.html';
+            }
+        }
+    </script>
+    <script src="js/kelas.js"></script>
+</body>
+</html>

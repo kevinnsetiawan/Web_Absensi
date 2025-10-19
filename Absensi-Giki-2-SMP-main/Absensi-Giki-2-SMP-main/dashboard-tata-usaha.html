@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Tata Usaha - SMP GIKI 2</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="coba.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+</head>
+<body>
+
+    <header class="d-flex justify-content-between align-items-center p-3 custom-header fixed-top">
+        <div class="d-flex align-items-center">
+            <button class="btn text-white me-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNav" aria-controls="offcanvasNav">
+                <i class="bi bi-list fs-4"></i> 
+            </button>
+            <span class="h5 mb-0 text-white">Dashboard Tata Usaha</span>
+        </div>
+        
+        <div class="custom-header-right"></div>
+    </header>
+
+    <div class="offcanvas offcanvas-start custom-sidebar" tabindex="-1" id="offcanvasNav" aria-labelledby="offcanvasNavLabel">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="offcanvasNavLabel">Menu Tata Usaha</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <ul class="nav flex-column sidebar-nav-list">
+                <li class="nav-item p-2 active-nav">
+                    <a class="nav-link text-dark" href="dashboard-tata-usaha.html"><i class="bi bi-house-door me-2"></i> Dashboard</a>
+                </li>
+                <li class="nav-item p-2">
+                    <a class="nav-link text-dark" href="laporan-absensi.html"><i class="bi bi-file-earmark-text me-2"></i> Laporan Absensi</a>
+                </li>
+                <li class="nav-item p-2">
+                    <a class="nav-link text-dark" href="manajemen-siswa.html"><i class="bi bi-people-fill me-2"></i> Manajemen Siswa</a>
+                </li>
+                <li class="nav-item p-2">
+                    <a class="nav-link text-dark" href="manajemen-guru.html"><i class="bi bi-person-badge me-2"></i> Manajemen Guru</a>
+                </li>
+                <li class="nav-item p-2">
+                    <a class="nav-link text-dark" href="laporan-kelas.html"><i class="bi bi-graph-up me-2"></i> Laporan Kelas</a>
+                </li>
+                <li class="nav-item p-2">
+                    <a class="nav-link text-dark" href="pengaturan.html"><i class="bi bi-gear me-2"></i> Pengaturan</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    
+    <main class="container-fluid p-4 main-content" style="padding-top: 75px !important; padding-bottom: 90px !important;">
+        
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="h5 text-dark">Selamat Datang, <span class="fw-bold" id="namaTataUsaha">Tata Usaha</span></h2>
+            <div class="d-flex align-items-center user-info-box">
+                <i class="bi bi-person-circle fs-5 me-2 text-secondary"></i>
+                <span class="me-2 text-dark user-name">Tata Usaha</span>
+                <i class="bi bi-caret-down-fill text-secondary"></i>
+            </div>
+        </div>
+
+        <!-- Statistik Utama -->
+        <div class="row mb-4">
+            <div class="col-md-3">
+                <div class="card text-center border-0 shadow-sm">
+                    <div class="card-body">
+                        <i class="bi bi-people-fill text-primary fs-3"></i>
+                        <h5 class="card-title mt-2" id="totalSiswa">0</h5>
+                        <p class="card-text text-muted">Total Siswa</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card text-center border-0 shadow-sm">
+                    <div class="card-body">
+                        <i class="bi bi-person-badge text-success fs-3"></i>
+                        <h5 class="card-title mt-2" id="totalGuru">0</h5>
+                        <p class="card-text text-muted">Total Guru</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card text-center border-0 shadow-sm">
+                    <div class="card-body">
+                        <i class="bi bi-calendar-check text-warning fs-3"></i>
+                        <h5 class="card-title mt-2" id="absensiHariIni">0</h5>
+                        <p class="card-text text-muted">Absensi Hari Ini</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card text-center border-0 shadow-sm">
+                    <div class="card-body">
+                        <i class="bi bi-graph-up text-info fs-3"></i>
+                        <h5 class="card-title mt-2" id="rataRataKehadiran">0%</h5>
+                        <p class="card-text text-muted">Rata-rata Kehadiran</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Statistik Kelas -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0"><i class="bi bi-bar-chart me-2"></i>Statistik Kelas</h5>
+                        <a href="laporan-kelas.html" class="btn btn-sm btn-outline-primary">Lihat Detail</a>
+                    </div>
+                    <div class="card-body">
+                        <div class="row" id="statistikKelas">
+                            <!-- Statistik kelas akan dimuat secara dinamis -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Laporan Absensi Terbaru -->
+        <div class="row mb-4">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0"><i class="bi bi-file-earmark-text me-2"></i>Laporan Absensi Terbaru</h5>
+                        <a href="laporan-absensi.html" class="btn btn-sm btn-outline-primary">Lihat Semua</a>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover mb-0">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Tanggal</th>
+                                        <th>Guru</th>
+                                        <th>Kelas</th>
+                                        <th>Mapel</th>
+                                        <th>Kehadiran</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tabelLaporanAbsensi">
+                                    <!-- Data laporan absensi akan dimuat secara dinamis -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0"><i class="bi bi-exclamation-triangle me-2"></i>Peringatan</h5>
+                    </div>
+                    <div class="card-body">
+                        <div id="peringatanList">
+                            <!-- Daftar peringatan akan dimuat secara dinamis -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Grafik Kehadiran -->
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0"><i class="bi bi-graph-up me-2"></i>Grafik Kehadiran Mingguan</h5>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="grafikKehadiran" width="400" height="200"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0"><i class="bi bi-pie-chart me-2"></i>Distribusi Kehadiran</h5>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="grafikDistribusi" width="400" height="200"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Cek apakah user sudah login dan role tata usaha
+        document.addEventListener('DOMContentLoaded', function() {
+            const userLogin = localStorage.getItem('userLogin');
+            if (!userLogin) {
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            const userData = JSON.parse(userLogin);
+            if (userData.role !== 'Tata Usaha') {
+                alert('Akses ditolak. Halaman ini khusus untuk Tata Usaha.');
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            // Tampilkan nama user
+            const userNameElement = document.querySelector('.user-name');
+            const namaTataUsahaElement = document.getElementById('namaTataUsaha');
+            if (userNameElement) {
+                userNameElement.textContent = userData.username;
+            }
+            if (namaTataUsahaElement) {
+                namaTataUsahaElement.textContent = userData.username;
+            }
+            
+            // Load data dashboard
+            loadDashboardData();
+        });
+        
+        // Load data dashboard
+        function loadDashboardData() {
+            loadStatistikUtama();
+            loadStatistikKelas();
+            loadLaporanAbsensi();
+            loadPeringatan();
+            loadGrafikKehadiran();
+            loadGrafikDistribusi();
+        }
+        
+        // Load statistik utama
+        function loadStatistikUtama() {
+            // Ambil data dari localStorage
+            const dataSiswa = JSON.parse(localStorage.getItem('dataSiswaLengkap') || '[]');
+            const totalSiswa = dataSiswa.length;
+            const totalGuru = 5; // Simulasi data guru
+            const absensiHariIni = Math.floor(Math.random() * 20) + 10;
+            const rataRataKehadiran = Math.floor(Math.random() * 20) + 80;
+            
+            document.getElementById('totalSiswa').textContent = totalSiswa;
+            document.getElementById('totalGuru').textContent = totalGuru;
+            document.getElementById('absensiHariIni').textContent = absensiHariIni;
+            document.getElementById('rataRataKehadiran').textContent = rataRataKehadiran + '%';
+        }
+        
+        // Load statistik kelas
+        function loadStatistikKelas() {
+            const kelas = [
+                { nama: 'Kelas 9A', total: 15, hadir: 14, tidakHadir: 1, persentase: 93 },
+                { nama: 'Kelas 9B', total: 15, hadir: 13, tidakHadir: 2, persentase: 87 },
+                { nama: 'Kelas 9C', total: 15, hadir: 15, tidakHadir: 0, persentase: 100 }
+            ];
+            
+            let html = '';
+            kelas.forEach(k => {
+                const warnaProgress = k.persentase >= 90 ? 'success' : k.persentase >= 80 ? 'warning' : 'danger';
+                html += `
+                    <div class="col-md-4 mb-3">
+                        <div class="card border-0 shadow-sm">
+                            <div class="card-body">
+                                <h6 class="card-title">${k.nama}</h6>
+                                <div class="d-flex justify-content-between mb-2">
+                                    <small class="text-muted">Kehadiran</small>
+                                    <small class="fw-bold">${k.persentase}%</small>
+                                </div>
+                                <div class="progress mb-2" style="height: 8px;">
+                                    <div class="progress-bar bg-${warnaProgress}" style="width: ${k.persentase}%"></div>
+                                </div>
+                                <div class="d-flex justify-content-between small text-muted">
+                                    <span>Hadir: ${k.hadir}</span>
+                                    <span>Tidak: ${k.tidakHadir}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            document.getElementById('statistikKelas').innerHTML = html;
+        }
+        
+        // Load laporan absensi
+        function loadLaporanAbsensi() {
+            const laporan = [
+                { tanggal: '07/01/2025', guru: 'Berlin', kelas: '9A', mapel: 'Matematika', kehadiran: '14/15', status: 'Selesai' },
+                { tanggal: '07/01/2025', guru: 'Berlin', kelas: '9B', mapel: 'Matematika', kehadiran: '13/15', status: 'Berlangsung' },
+                { tanggal: '06/01/2025', guru: 'Berlin', kelas: '9C', mapel: 'Matematika', kehadiran: '15/15', status: 'Selesai' },
+                { tanggal: '06/01/2025', guru: 'Berlin', kelas: '9A', mapel: 'Matematika', kehadiran: '12/15', status: 'Selesai' }
+            ];
+            
+            let html = '';
+            laporan.forEach(l => {
+                const statusBadge = l.status === 'Selesai' ? 'bg-success' : 'bg-warning';
+                html += `
+                    <tr>
+                        <td>${l.tanggal}</td>
+                        <td>${l.guru}</td>
+                        <td>${l.kelas}</td>
+                        <td>${l.mapel}</td>
+                        <td><span class="badge bg-info">${l.kehadiran}</span></td>
+                        <td><span class="badge ${statusBadge}">${l.status}</span></td>
+                    </tr>
+                `;
+            });
+            
+            document.getElementById('tabelLaporanAbsensi').innerHTML = html;
+        }
+        
+        // Load peringatan
+        function loadPeringatan() {
+            const peringatan = [
+                { type: 'warning', text: 'Kelas 9B memiliki tingkat kehadiran rendah (87%)' },
+                { type: 'info', text: '3 guru belum mengisi absensi hari ini' },
+                { type: 'success', text: 'Kelas 9C memiliki kehadiran sempurna (100%)' }
+            ];
+            
+            let html = '';
+            peringatan.forEach(p => {
+                const iconClass = p.type === 'warning' ? 'bi-exclamation-triangle text-warning' :
+                                 p.type === 'info' ? 'bi-info-circle text-info' :
+                                 'bi-check-circle text-success';
+                html += `
+                    <div class="alert alert-${p.type} alert-sm d-flex align-items-center mb-2">
+                        <i class="bi ${iconClass} me-2"></i>
+                        <small>${p.text}</small>
+                    </div>
+                `;
+            });
+            
+            document.getElementById('peringatanList').innerHTML = html;
+        }
+        
+        // Load grafik kehadiran
+        function loadGrafikKehadiran() {
+            const ctx = document.getElementById('grafikKehadiran').getContext('2d');
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['Sen', 'Sel', 'Rab', 'Kam', 'Jum'],
+                    datasets: [{
+                        label: 'Kehadiran (%)',
+                        data: [85, 92, 88, 95, 90],
+                        borderColor: '#007bff',
+                        backgroundColor: 'rgba(0, 123, 255, 0.1)',
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 100
+                        }
+                    }
+                }
+            });
+        }
+        
+        // Load grafik distribusi
+        function loadGrafikDistribusi() {
+            const ctx = document.getElementById('grafikDistribusi').getContext('2d');
+            new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Hadir', 'Tidak Hadir', 'Terlambat', 'Izin'],
+                    datasets: [{
+                        data: [85, 8, 5, 2],
+                        backgroundColor: ['#28a745', '#dc3545', '#ffc107', '#17a2b8']
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false
+                }
+            });
+        }
+        
+        // Tambahkan event listener untuk dropdown user
+        document.addEventListener('DOMContentLoaded', function() {
+            const userInfoBox = document.querySelector('.user-info-box');
+            if (userInfoBox) {
+                userInfoBox.style.cursor = 'pointer';
+                userInfoBox.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    
+                    // Hapus menu sebelumnya jika ada
+                    const existingMenu = document.querySelector('.dropdown-menu');
+                    if (existingMenu) {
+                        existingMenu.remove();
+                        return;
+                    }
+                    
+                    const menu = document.createElement('div');
+                    menu.className = 'dropdown-menu show position-absolute';
+                    menu.style.top = '100%';
+                    menu.style.right = '0';
+                    menu.style.zIndex = '1000';
+                    menu.innerHTML = `
+                        <a class="dropdown-item" href="#" onclick="logout()">
+                            <i class="bi bi-box-arrow-right me-2"></i>Logout
+                        </a>
+                    `;
+                    
+                    userInfoBox.appendChild(menu);
+                    
+                    // Tutup menu saat klik di luar
+                    setTimeout(() => {
+                        document.addEventListener('click', function closeMenu(e) {
+                            if (!userInfoBox.contains(e.target)) {
+                                menu.remove();
+                                document.removeEventListener('click', closeMenu);
+                            }
+                        });
+                    }, 100);
+                });
+            }
+        });
+        
+        // Fungsi logout
+        function logout() {
+            if (confirm('Apakah Anda yakin ingin logout?')) {
+                localStorage.removeItem('userLogin');
+                window.location.href = 'login.html';
+            }
+        }
+    </script>
+</body>
+</html>

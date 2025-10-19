@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Siswa - SMP GIKI 2</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="coba.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+</head>
+<body>
+
+    <header class="d-flex justify-content-between align-items-center p-3 custom-header fixed-top">
+        <div class="d-flex align-items-center">
+            <button class="btn text-white me-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNav" aria-controls="offcanvasNav">
+                <i class="bi bi-list fs-4"></i> 
+            </button>
+            <span class="h5 mb-0 text-white">Dashboard Siswa</span>
+        </div>
+        
+        <div class="custom-header-right"></div>
+    </header>
+
+    <div class="offcanvas offcanvas-start custom-sidebar" tabindex="-1" id="offcanvasNav" aria-labelledby="offcanvasNavLabel">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="offcanvasNavLabel">Menu Siswa</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <ul class="nav flex-column sidebar-nav-list">
+                <li class="nav-item p-2 active-nav">
+                    <a class="nav-link text-dark" href="dashboard-siswa.html"><i class="bi bi-house-door me-2"></i> Dashboard</a>
+                </li>
+                <li class="nav-item p-2">
+                    <a class="nav-link text-dark" href="riwayat-absensi.html"><i class="bi bi-clock-history me-2"></i> Riwayat Absensi</a>
+                </li>
+                <li class="nav-item p-2">
+                    <a class="nav-link text-dark" href="jadwal-siswa.html"><i class="bi bi-calendar3 me-2"></i> Jadwal Saya</a>
+                </li>
+                <li class="nav-item p-2">
+                    <a class="nav-link text-dark" href="profil-siswa.html"><i class="bi bi-person-circle me-2"></i> Profil Saya</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    
+    <main class="container-fluid p-4 main-content" style="padding-top: 75px !important; padding-bottom: 90px !important;">
+        
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="h5 text-dark">Selamat Datang, <span class="fw-bold" id="namaSiswa">Siswa</span></h2>
+            <div class="d-flex align-items-center user-info-box">
+                <i class="bi bi-person-circle fs-5 me-2 text-secondary"></i>
+                <span class="me-2 text-dark user-name">Siswa</span>
+                <i class="bi bi-caret-down-fill text-secondary"></i>
+            </div>
+        </div>
+
+        <!-- Informasi Siswa -->
+        <div class="row mb-4">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0"><i class="bi bi-person-circle me-2"></i>Informasi Saya</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <table class="table table-borderless">
+                                    <tr>
+                                        <td class="fw-bold">Nama:</td>
+                                        <td id="infoNama">Ahmad Rizki</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">NIS:</td>
+                                        <td id="infoNIS">2024001</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">Kelas:</td>
+                                        <td id="infoKelas">9A</td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="col-md-6">
+                                <table class="table table-borderless">
+                                    <tr>
+                                        <td class="fw-bold">Status:</td>
+                                        <td><span class="badge bg-success">Aktif</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">Semester:</td>
+                                        <td>Ganjil 2024/2025</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">Wali Kelas:</td>
+                                        <td>Berlin</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <i class="bi bi-calendar-check text-primary fs-1"></i>
+                        <h4 class="mt-3" id="persentaseKehadiran">95%</h4>
+                        <p class="text-muted">Kehadiran Bulan Ini</p>
+                        <div class="progress">
+                            <div class="progress-bar bg-success" style="width: 95%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Statistik Kehadiran -->
+        <div class="row mb-4">
+            <div class="col-md-3">
+                <div class="card text-center border-0 shadow-sm">
+                    <div class="card-body">
+                        <i class="bi bi-check-circle-fill text-success fs-3"></i>
+                        <h5 class="card-title mt-2" id="totalHadir">19</h5>
+                        <p class="card-text text-muted">Hadir</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card text-center border-0 shadow-sm">
+                    <div class="card-body">
+                        <i class="bi bi-x-circle-fill text-danger fs-3"></i>
+                        <h5 class="card-title mt-2" id="totalTidakHadir">1</h5>
+                        <p class="card-text text-muted">Tidak Hadir</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card text-center border-0 shadow-sm">
+                    <div class="card-body">
+                        <i class="bi bi-clock-fill text-warning fs-3"></i>
+                        <h5 class="card-title mt-2" id="totalTerlambat">0</h5>
+                        <p class="card-text text-muted">Terlambat</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card text-center border-0 shadow-sm">
+                    <div class="card-body">
+                        <i class="bi bi-file-medical-fill text-info fs-3"></i>
+                        <h5 class="card-title mt-2" id="totalIzin">0</h5>
+                        <p class="card-text text-muted">Izin</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Jadwal Hari Ini -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0"><i class="bi bi-calendar3 me-2"></i>Jadwal Hari Ini</h5>
+                        <span class="badge bg-primary" id="tanggalHariIni"></span>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover mb-0">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Waktu</th>
+                                        <th>Mata Pelajaran</th>
+                                        <th>Guru</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tabelJadwalSiswa">
+                                    <!-- Data jadwal akan dimuat secara dinamis -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Riwayat Absensi Terbaru -->
+        <div class="row">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0"><i class="bi bi-clock-history me-2"></i>Riwayat Absensi Terbaru</h5>
+                        <a href="riwayat-absensi.html" class="btn btn-sm btn-outline-primary">Lihat Semua</a>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover mb-0">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Tanggal</th>
+                                        <th>Mata Pelajaran</th>
+                                        <th>Guru</th>
+                                        <th>Status</th>
+                                        <th>Waktu</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tabelRiwayatAbsensi">
+                                    <!-- Data riwayat absensi akan dimuat secara dinamis -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0"><i class="bi bi-info-circle me-2"></i>Informasi Penting</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="alert alert-info alert-sm mb-2">
+                            <i class="bi bi-info-circle me-2"></i>
+                            <small>Kehadiran Anda sangat baik! Pertahankan!</small>
+                        </div>
+                        <div class="alert alert-warning alert-sm mb-2">
+                            <i class="bi bi-exclamation-triangle me-2"></i>
+                            <small>Jangan lupa absen setiap hari</small>
+                        </div>
+                        <div class="alert alert-success alert-sm">
+                            <i class="bi bi-check-circle me-2"></i>
+                            <small>Anda tidak pernah terlambat bulan ini</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Cek apakah user sudah login dan role siswa
+        document.addEventListener('DOMContentLoaded', function() {
+            const userLogin = localStorage.getItem('userLogin');
+            if (!userLogin) {
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            const userData = JSON.parse(userLogin);
+            if (userData.role !== 'Siswa') {
+                alert('Akses ditolak. Halaman ini khusus untuk Siswa.');
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            // Tampilkan nama user
+            const userNameElement = document.querySelector('.user-name');
+            const namaSiswaElement = document.getElementById('namaSiswa');
+            if (userNameElement) {
+                userNameElement.textContent = userData.username;
+            }
+            if (namaSiswaElement) {
+                namaSiswaElement.textContent = userData.username;
+            }
+            
+            // Load data dashboard
+            loadDashboardData();
+        });
+        
+        // Load data dashboard
+        function loadDashboardData() {
+            loadInformasiSiswa();
+            loadStatistikKehadiran();
+            loadJadwalHariIni();
+            loadRiwayatAbsensi();
+            setTanggalHariIni();
+        }
+        
+        // Set tanggal hari ini
+        function setTanggalHariIni() {
+            const today = new Date();
+            const options = { 
+                weekday: 'long', 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+            };
+            document.getElementById('tanggalHariIni').textContent = today.toLocaleDateString('id-ID', options);
+        }
+        
+        // Load informasi siswa
+        function loadInformasiSiswa() {
+            // Simulasi data siswa
+            document.getElementById('infoNama').textContent = 'Ahmad Rizki';
+            document.getElementById('infoNIS').textContent = '2024001';
+            document.getElementById('infoKelas').textContent = '9A';
+        }
+        
+        // Load statistik kehadiran
+        function loadStatistikKehadiran() {
+            // Simulasi data statistik
+            document.getElementById('totalHadir').textContent = 19;
+            document.getElementById('totalTidakHadir').textContent = 1;
+            document.getElementById('totalTerlambat').textContent = 0;
+            document.getElementById('totalIzin').textContent = 0;
+            document.getElementById('persentaseKehadiran').textContent = '95%';
+        }
+        
+        // Load jadwal hari ini
+        function loadJadwalHariIni() {
+            const jadwal = [
+                { waktu: '07:00 - 08:30', mapel: 'Matematika', guru: 'Berlin', status: 'Selesai' },
+                { waktu: '08:30 - 10:00', mapel: 'Bahasa Indonesia', guru: 'Sari', status: 'Berlangsung' },
+                { waktu: '10:00 - 11:30', mapel: 'Bahasa Inggris', guru: 'John', status: 'Akan Datang' },
+                { waktu: '11:30 - 13:00', mapel: 'IPA', guru: 'Dr. Lisa', status: 'Akan Datang' }
+            ];
+            
+            let html = '';
+            jadwal.forEach(j => {
+                const statusBadge = j.status === 'Selesai' ? 'bg-success' : 
+                                   j.status === 'Berlangsung' ? 'bg-warning' : 'bg-info';
+                
+                html += `
+                    <tr>
+                        <td>${j.waktu}</td>
+                        <td>${j.mapel}</td>
+                        <td>${j.guru}</td>
+                        <td><span class="badge ${statusBadge}">${j.status}</span></td>
+                    </tr>
+                `;
+            });
+            
+            document.getElementById('tabelJadwalSiswa').innerHTML = html;
+        }
+        
+        // Load riwayat absensi
+        function loadRiwayatAbsensi() {
+            const riwayat = [
+                { tanggal: '07/01/2025', mapel: 'Matematika', guru: 'Berlin', status: 'Hadir', waktu: '07:05' },
+                { tanggal: '06/01/2025', mapel: 'Bahasa Indonesia', guru: 'Sari', status: 'Hadir', waktu: '08:35' },
+                { tanggal: '06/01/2025', mapel: 'Bahasa Inggris', guru: 'John', status: 'Hadir', waktu: '10:05' },
+                { tanggal: '05/01/2025', mapel: 'IPA', guru: 'Dr. Lisa', status: 'Tidak Hadir', waktu: '-' },
+                { tanggal: '05/01/2025', mapel: 'Matematika', guru: 'Berlin', status: 'Hadir', waktu: '07:10' }
+            ];
+            
+            let html = '';
+            riwayat.forEach(r => {
+                const statusBadge = r.status === 'Hadir' ? 'bg-success' : 
+                                   r.status === 'Tidak Hadir' ? 'bg-danger' : 'bg-warning';
+                
+                html += `
+                    <tr>
+                        <td>${r.tanggal}</td>
+                        <td>${r.mapel}</td>
+                        <td>${r.guru}</td>
+                        <td><span class="badge ${statusBadge}">${r.status}</span></td>
+                        <td>${r.waktu}</td>
+                    </tr>
+                `;
+            });
+            
+            document.getElementById('tabelRiwayatAbsensi').innerHTML = html;
+        }
+        
+        // Tambahkan event listener untuk dropdown user
+        document.addEventListener('DOMContentLoaded', function() {
+            const userInfoBox = document.querySelector('.user-info-box');
+            if (userInfoBox) {
+                userInfoBox.style.cursor = 'pointer';
+                userInfoBox.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    
+                    // Hapus menu sebelumnya jika ada
+                    const existingMenu = document.querySelector('.dropdown-menu');
+                    if (existingMenu) {
+                        existingMenu.remove();
+                        return;
+                    }
+                    
+                    const menu = document.createElement('div');
+                    menu.className = 'dropdown-menu show position-absolute';
+                    menu.style.top = '100%';
+                    menu.style.right = '0';
+                    menu.style.zIndex = '1000';
+                    menu.innerHTML = `
+                        <a class="dropdown-item" href="#" onclick="logout()">
+                            <i class="bi bi-box-arrow-right me-2"></i>Logout
+                        </a>
+                    `;
+                    
+                    userInfoBox.appendChild(menu);
+                    
+                    // Tutup menu saat klik di luar
+                    setTimeout(() => {
+                        document.addEventListener('click', function closeMenu(e) {
+                            if (!userInfoBox.contains(e.target)) {
+                                menu.remove();
+                                document.removeEventListener('click', closeMenu);
+                            }
+                        });
+                    }, 100);
+                });
+            }
+        });
+        
+        // Fungsi logout
+        function logout() {
+            if (confirm('Apakah Anda yakin ingin logout?')) {
+                localStorage.removeItem('userLogin');
+                window.location.href = 'login.html';
+            }
+        }
+    </script>
+</body>
+</html>
